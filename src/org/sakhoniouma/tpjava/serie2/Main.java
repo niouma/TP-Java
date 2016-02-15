@@ -2,6 +2,7 @@ package org.sakhoniouma.tpjava.serie2;
 
 import org.sakhoniouma.tpjava.serie1.Marin;
 
+
 public class Main {
 
 	public static void main(String[] args) {
