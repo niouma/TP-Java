@@ -18,8 +18,8 @@ public class Main {
 		m5 = new Marin("Dupont","Marc",1800);
 		
 		System.out.println(equipage.getCapacite());
-		equipage.etendEquipage(7);
-		System.out.println(equipage.getCapacite());
+		/*equipage.etendEquipage(7);
+		System.out.println(equipage.getCapacite());*/
 		System.out.println(equipage.addMarin(m1));
 		System.out.println(equipage);
 		System.out.println(equipage.addMarin(m2));
@@ -28,6 +28,9 @@ public class Main {
 		System.out.println(equipage.getNombreMarins());
 		System.out.println(equipage.isMarinPresent(m3));
 		//System.out.println(equipage.getEquipage());
+		System.out.println(equipage);
+		equipage.etendEquipage(7);
+		System.out.println(equipage.getCapacite());
 		System.out.println(equipage);
 		System.out.println(equipage.removeMarin(m3));
 		System.out.println(equipage);

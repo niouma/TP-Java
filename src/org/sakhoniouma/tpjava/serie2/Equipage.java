@@ -122,7 +122,15 @@ public class Equipage {
 	}
 	
 	public void etendEquipage(int place){
-		marins = new Marin[marins.length + place];
+		Marin [] Marins = new Marin[marins.length + place];
+		int i,j=0;
+		for(i=0;i<marins.length;i++){
+			if (marins[i] != null){
+				Marins[j] = marins[i];
+				j++;
+			}	
+		}
+		marins = Marins;
 		
 	}
 	
