@@ -45,7 +45,7 @@ public class Bateau {
 		resultat = "Nom : " + nom + "\n";
 		resultat += "Tonnage : " + tonnage + "\n";
 		//resultat += "Propulsion : " + 
-		resultat += "Equipage : " + equipage.toString();
+		resultat += "Equipage : \n" + equipage.toString();
 		return resultat;
 	}
 

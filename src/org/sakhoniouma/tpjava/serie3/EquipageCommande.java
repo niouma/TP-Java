@@ -13,7 +13,7 @@ public class EquipageCommande extends Equipage{
 	}
 	public String toString() {
 		String resultat = super.toString();
-		resultat += commandant.toString();
+		resultat += "Commandant : \n" + commandant.toString();
 		return resultat;
 	}
 	

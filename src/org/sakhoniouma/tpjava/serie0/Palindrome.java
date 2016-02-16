@@ -19,11 +19,9 @@ public class Palindrome {
 			}
 		}
 		snombre = Integer.toString(nombre);
-		StringBuffer snombre2 = new StringBuffer(snombre);
-		System.out.println(snombre2);
-		StringBuffer sinvnombre = snombre2.reverse();
-		System.out.println(sinvnombre);
-		if (sinvnombre.equals(snombre2))
+		StringBuffer snombre2 = new StringBuffer(snombre).reverse();
+		String sinvnombre = snombre2.toString();
+		if (snombre.equals(sinvnombre))
 			res = nombre + " est un palindrome premier";
 		else
 			res = nombre + " n'est pas un palindrome premier";

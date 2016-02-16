@@ -1,7 +1,7 @@
 package org.sakhoniouma.tpjava.serie1;
 
 
-public class Marin {
+public class Marin implements Cloneable{
 	private String nom,prenom;
 	private int salaire;
 	
@@ -9,6 +9,10 @@ public class Marin {
 		nom = Nnom;
 		prenom = Nprenom;
 		salaire = Nsalaire;
+		
+	}
+	
+	public Marin(){
 		
 	}
 	
@@ -69,6 +73,10 @@ public class Marin {
 		hashCode = 31*hashCode + salaire;
 		return hashCode;
 		
+	}
+	
+	public Marin clone() throws CloneNotSupportedException {
+		return (Marin)super.clone();
 	}
 
 }
