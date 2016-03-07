@@ -1,7 +1,7 @@
 package org.sakhoniouma.tpjava.serie1;
 
 
-public class Marin implements Cloneable{
+public class Marin implements Cloneable , Comparable<Marin>{
 	private String nom,prenom;
 	private int salaire;
 	
@@ -78,5 +78,15 @@ public class Marin implements Cloneable{
 	public Marin clone() throws CloneNotSupportedException {
 		return (Marin)super.clone();
 	}
+	
+	public int compareTo(Marin m){
+		
+		if (this.getNom().equals(m.getNom()))
+			return this.getPrenom().compareTo(m.getPrenom());
+		else
+			return this.getNom().compareTo(m.getNom());
+		
+	}
+
 
 }
