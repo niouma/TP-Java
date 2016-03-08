@@ -1,7 +1,11 @@
 package org.sakhoniouma.tpjava.serie1;
+import java.io.Serializable;
 
-
-public class Marin implements Cloneable , Comparable<Marin>{
+public class Marin implements Serializable, Cloneable , Comparable<Marin>{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4446861375991332752L;
 	private String nom,prenom;
 	private int salaire;
 	
