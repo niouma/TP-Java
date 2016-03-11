@@ -200,26 +200,29 @@ public class Sauvegarde {
 		File fichier = new File (nomFichier);
 		ArrayList<Marin> marins = new ArrayList<Marin>();
 		FileInputStream is = null;
+		boolean eof = false;
 
 		try {
 			is = new FileInputStream(fichier);
 			ObjectInputStream ois = new ObjectInputStream(is);
-			System.out.println("I am in lisObject");
+			//System.out.println("I am in lisObject");
+			while (!eof){
 			try{
-				while (ois.available()>0){
-					System.out.println((Marin) ois.readObject());
-					//marins.add((Marin) ois.readObject());
-				}
+	
+					//System.out.println((Marin) ois.readObject());
+					marins.add((Marin) ois.readObject());
+				
 				
 			} 
 			catch (EOFException e ) {
-				System.out.println("Erreur1 " + e.getMessage());
-				e.printStackTrace();
+				//System.out.println("Erreur1 " + e.getMessage());
+				//e.printStackTrace();
+				eof = true;
 			}
-			finally {
-				if (ois != null)
-					ois.close();
 			}
+			if (ois != null)
+				ois.close();
+			
 		}
 		catch (FileNotFoundException e) {
 			System.out.println("Erreur2 " + e.getMessage());

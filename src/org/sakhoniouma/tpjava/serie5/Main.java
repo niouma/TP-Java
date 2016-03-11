@@ -31,43 +31,36 @@ public class Main {
 
 	
 		
-		/*Sauvegarde.sauveFichierTexte("C:\\Niouma\\marins.txt", m1);
+		Sauvegarde.sauveFichierTexte("C:\\Niouma\\marins.txt", m1);
 		Sauvegarde.sauveFichierTexte("C:\\Niouma\\marins.txt", m3);
 		Sauvegarde.sauveFichierTexte("C:\\Niouma\\marins.txt", m4);
+		//taile 55 octets
 		
 		marins = Sauvegarde.lisFichierTexte("C:\\Niouma\\marins.txt");
 		System.out.println(marins);
 		
-		Sauvegarde.sauveChampBinaire("C:\\Niouma\\marins.bin", m5);
-		Sauvegarde.sauveChampBinaire("C:\\Niouma\\marins.bin", m6);
+		Sauvegarde.sauveChampBinaire("C:\\Niouma\\marins.bin", m1);
+		Sauvegarde.sauveChampBinaire("C:\\Niouma\\marins.bin", m3);
+		Sauvegarde.sauveChampBinaire("C:\\Niouma\\marins.bin", m4);
+		//taille 61 octets
 		
 		marins = Sauvegarde.lisChampBinaire("C:\\Niouma\\marins.bin");
-		System.out.println("read marins from binary file : \n " + marins);*/
+		System.out.println("read marins from binary file : \n " + marins);
 		
-		/*File fichier = new File ("C:\\Niouma\\marin.bin");
-		OutputStream os = new FileOutputStream(fichier);
-		ObjectOutputStream oos = new ObjectOutputStream(os);
-		oos.writeObject(m2);
-		oos.writeObject(m5);
-		oos.close();
-		InputStream is = new FileInputStream(fichier);
-		ObjectInputStream ois = new ObjectInputStream(is);
-		System.out.println((Marin)ois.readObject());
-		System.out.println((Marin)ois.readObject());
-		ois.close();*/
+		
 		
 		
 		ArrayList<Marin> mm = new ArrayList<Marin>();
 		mm.add(m1);
-		mm.add(m2);
+		//mm.add(m2);
 		mm.add(m3);
 		mm.add(m4);
 		Sauvegarde.sauveObject("C:\\Niouma\\marin.bin", mm);
-		//Sauvegarde.sauveObject("C:\\Niouma\\marin.bin", m2);
-		//Sauvegarde.sauveObject("C:\\Niouma\\marin.bin", m5);
+		// taille 180 octets
+	
 		
 		marins = Sauvegarde.lisObject("C:\\Niouma\\marin.bin");
-		//System.out.println("read marins from object file : \n " + marins);
+		System.out.println("read marins from object file : \n " + marins);
 
 
 	}
