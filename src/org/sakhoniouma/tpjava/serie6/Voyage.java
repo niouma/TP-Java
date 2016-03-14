@@ -1,19 +1,22 @@
 package org.sakhoniouma.tpjava.serie6;
 
-
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Voyage {
 	private String portDepart, portDest;
 	private int jours;
+	public static ArrayList<Voyage> voyages = new ArrayList<Voyage>();
 	
 	public Voyage(){
 		
 	}
 	
-	public Voyage(String portD, String portA, int njours){
+	private Voyage(String portD, String portA, int njours){
 		portDepart = portD;
 		portDest = portA;
 		jours = njours;
+		voyages.add(this);
 	}
 
 	public String getPortDepart() {
@@ -71,6 +74,53 @@ public class Voyage {
 		hashCode = 31*hashCode + ((Port == null) ? 0 : Port.hashCode());
 		hashCode = 31*hashCode + jours;
 		return hashCode;
+	}
+	
+	public static Voyage getVoyage(String depart,String destination){
+		Iterator<Voyage> it = voyages.iterator();
+		while (it.hasNext()){
+			Voyage element = it.next();
+			if (element.getPortDepart().equals(depart) && element.getPortDest().equals(destination))
+				return element;
+		}
+		return null;
+		
+	}
+	
+	public static ArrayList<Voyage> getVoyageAuDepartDe(String depart){
+		ArrayList<Voyage> resultat = new ArrayList<Voyage>();
+		Iterator<Voyage> it = voyages.iterator();
+		while (it.hasNext()){
+			Voyage element = it.next();
+			if (element.getPortDepart().equals(depart))
+				resultat.add(element);
+		}
+		return resultat;
+		
+	}
+	
+	public static Voyage getPlusCourtAuDepartDe(String depart){
+		ArrayList<Voyage> resultat = new ArrayList<Voyage>();
+		resultat = Voyage.getVoyageAuDepartDe(depart);
+		Voyage voyage = new Voyage();
+		Iterator<Voyage> it = resultat.iterator();
+		while (it.hasNext()){
+			Voyage element = it.next();
+			if (element.getJours() < it.next().getJours())
+				voyage = element;
+		}
+		return voyage;
+	}
+	
+	public static Voyage newInstance(String depart, String arrivee, int nombreJours){
+		if (Voyage.getVoyage(depart, arrivee) != null)
+			return Voyage.getVoyage(depart, arrivee);
+		else
+		{
+			Voyage voyage = new Voyage(depart,arrivee,nombreJours);
+			return voyage;
+		}
+		
 	}
 	
 
