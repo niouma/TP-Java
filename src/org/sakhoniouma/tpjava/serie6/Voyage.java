@@ -1,7 +1,12 @@
 package org.sakhoniouma.tpjava.serie6;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
 public class Voyage {
 	private String portDepart, portDest;
@@ -12,7 +17,7 @@ public class Voyage {
 		
 	}
 	
-	private Voyage(String portD, String portA, int njours){
+	public Voyage(String portD, String portA, int njours){
 		portDepart = portD;
 		portDest = portA;
 		jours = njours;
@@ -121,6 +126,43 @@ public class Voyage {
 			return voyage;
 		}
 		
+	}
+	
+	public static ArrayList<Voyage> newInstanceFromFile(){
+		ArrayList<Voyage> resultat = new ArrayList<Voyage>();
+		FileReader fr = null;
+		try {
+			fr = new FileReader("C:\\Niouma\\Voyages.txt");
+			BufferedReader br = new BufferedReader(fr);
+			String ligne;
+			ligne = br.readLine();
+			while(ligne != null){
+				StringTokenizer st = new StringTokenizer(ligne,",");
+				Voyage vg = new Voyage(st.nextToken(),st.nextToken(),Integer.parseInt(st.nextToken()));
+				resultat.add(vg);
+				ligne = br.readLine();	
+			} 
+			br.close();
+		}catch (FileNotFoundException e) {
+			System.out.println("Erreur " + e.getMessage());
+			e.printStackTrace();
+		}
+		catch (IOException e) {
+			System.out.println("Erreur " + e.getMessage());
+			e.printStackTrace();
+
+		} finally {
+			if (fr != null){
+				try {
+					fr.close();
+				} catch (IOException e){
+					System.out.println("Erreur " + e.getMessage());
+					e.printStackTrace();
+				}
+
+			}
+		}
+		return resultat;
 	}
 	
 
