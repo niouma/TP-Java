@@ -175,6 +175,40 @@ public class Film {
 		
 	}
 	
+	public static ArrayList<Film> getFilmsApartirde(int annee){
+		ArrayList<Film> resultat = new ArrayList<Film>();
+		int i,max;
+		Collection<Film> values = new ArrayList<Film>();
+		values = table.values();
+		Iterator<Film> it = values.iterator();
+		max = it.next().getAnnee();
+		while (it.hasNext()){
+			Film f = it.next();
+			if(f.getAnnee() > max)
+				max = f.getAnnee();
+		}
+		for(i=annee;i<=max;i++)
+			resultat.addAll(Film.getFilmsByAnnee(i));
+		return resultat;
+	}
+	
+	public static ArrayList<Film> getFilmsAvantAnnee(int annee){
+		ArrayList<Film> resultat = new ArrayList<Film>();
+		int i,min;
+		Collection<Film> values = new ArrayList<Film>();
+		values = table.values();
+		Iterator<Film> it = values.iterator();
+		min = it.next().getAnnee();
+		while (it.hasNext()){
+			Film f = it.next();
+			if(f.getAnnee() < min)
+				min = f.getAnnee();
+		}
+		for(i=min;i<=annee;i++)
+			resultat.addAll(Film.getFilmsByAnnee(i));
+		return resultat;
+	}
+	
 	public static ArrayList<Film> getFilmsByActeur(Acteur a){
 		ArrayList<Film> resultat = new ArrayList<Film>();
 		Collection<Film> values = new ArrayList<Film>();
@@ -201,5 +235,7 @@ public class Film {
 		}
 		return resultat;
 	}
+	
+	
 
 }

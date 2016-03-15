@@ -49,8 +49,9 @@ public class Main {
 		System.out.println(Film.getFilmsByAnnee(2003));
 		//System.out.println(Film.getFilmsBetweenAnnees(2000,2003));
 		System.out.println(Film.getFilmsByActeur(a1));
-		System.out.println(Film.getFilmsByActeurs(list2));
-		
+		//System.out.println(Film.getFilmsByActeurs(list2));
+		//System.out.println(Film.getFilmsApartirde(2002));
+		System.out.println(Film.getFilmsAvantAnnee(1930));
 		
 
 	}
