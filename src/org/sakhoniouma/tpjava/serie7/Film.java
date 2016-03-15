@@ -5,9 +5,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.TreeSet;
 
 
 
@@ -81,13 +84,14 @@ public class Film {
 	
 	public static HashMap<String,Film> getTableFromFile(){
 		FileReader fr = null;
-		int i;
+		int i,j;
 		try {
 			fr = new FileReader("C:\\Niouma\\movies-mpaa.txt");
 			BufferedReader br = new BufferedReader(fr);
 			String ligne;
 			ligne = br.readLine();
 			while(ligne != null){
+			//for(j=0;j<5;j++){
 				ArrayList<Acteur> act = new ArrayList<Acteur>();
 				Film f = new Film();
 				StringTokenizer st = new StringTokenizer(ligne);
@@ -95,10 +99,17 @@ public class Film {
 				String annee = st.nextToken("/");
 				f.setAnnee(Integer.parseInt(annee.substring(1, 5)));
 				String [] tab1= ligne.split("/");
-				System.out.println("---->"+tab1[1]);
+				//System.out.println("---->"+tab1[1]);
 				for (i=1;i<tab1.length;i++) {
+					Acteur a = new Acteur();
 					String [] tab2 = tab1[i].split(",");
-					act.add(new Acteur(tab2[0],tab2[1]));
+					//System.out.println("-+-->"+tab2[0]);
+					a.setNom(tab2[0].trim());
+					if (tab2.length < 2)
+						a.setPrenom(" ");
+					else
+						a.setPrenom(tab2[1].trim());
+					act.add(a);
 				}
 				f.setActeurs(act);
 				
@@ -106,6 +117,7 @@ public class Film {
 				//System.out.println(act);
 				ligne = br.readLine();	
 			} 
+			//}
 			br.close();
 		}catch (FileNotFoundException e) {
 			System.out.println("Erreur " + e.getMessage());
@@ -127,6 +139,67 @@ public class Film {
 			}
 		}
 		return table;
+	}
+	
+	public static Film getFilmByNom(String nom){
+		Set<String> keys = new TreeSet<String>();
+		keys = table.keySet();
+		Iterator<String> it = keys.iterator();
+		while (it.hasNext()){
+			String key = it.next();
+			if (key.substring(0, key.length()-5).equals(nom))
+				return table.get(key);
+		}
+		return null;
+	}
+	
+	public static ArrayList<Film> getFilmsByAnnee(int annee){
+		ArrayList<Film> resultat = new ArrayList<Film>();
+		Set<String> keys = new TreeSet<String>();
+		keys = table.keySet();
+		Iterator<String> it = keys.iterator();
+		while (it.hasNext()){
+			String key = it.next();
+			if (key.endsWith(String.valueOf(annee)))
+					resultat.add(table.get(key));
+		}
+		return resultat;
+	}
+	
+	public static ArrayList<Film> getFilmsBetweenAnnees(int debut,int fin){
+		ArrayList<Film> resultat = new ArrayList<Film>();
+		int i;
+		for(i=debut;i<=fin;i++)
+			resultat.addAll(Film.getFilmsByAnnee(i));
+		return resultat;
+		
+	}
+	
+	public static ArrayList<Film> getFilmsByActeur(Acteur a){
+		ArrayList<Film> resultat = new ArrayList<Film>();
+		Collection<Film> values = new ArrayList<Film>();
+		values = table.values();
+		Iterator<Film> it = values.iterator();
+		while(it.hasNext()){
+			Film f = it.next();
+			Iterator<Acteur> it2 = f.getActeurs().iterator();
+			while(it2.hasNext()){
+				Acteur acteur = it2.next();
+				if (acteur.equals(a))
+					resultat.add(f);
+			}
+		}
+		return resultat;
+	}
+	
+	public static ArrayList<Film> getFilmsByActeurs(ArrayList<Acteur> liste){
+		ArrayList<Film> resultat = new ArrayList<Film>();
+		Iterator<Acteur> it = liste.iterator();
+		while(it.hasNext()){
+			Acteur a = it.next();
+			resultat.addAll(Film.getFilmsByActeur(a));
+		}
+		return resultat;
 	}
 
 }
