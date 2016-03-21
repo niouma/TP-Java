@@ -1,9 +1,10 @@
 package org.sakhoniouma.tpjava.serie7;
 
-
+import java.util.HashMap;
 
 public class Acteur {
 	private String nom,prenom;
+	public static HashMap<Integer,Acteur> table = new HashMap<Integer,Acteur>();
 	
 	public Acteur(){
 		
@@ -46,8 +47,9 @@ public class Acteur {
 	
 	public int hashCode(){
 		int hashCode = 17;
-		hashCode = 31*hashCode + ((nom == null) ? 0 : nom.hashCode());
-		hashCode = 31*hashCode + ((prenom == null) ? 0 : prenom.hashCode());
+		String name;
+		name = nom.concat(prenom);
+		hashCode = 31*hashCode + ((name == null) ? 0 : name.hashCode());
 		return hashCode;
 	}
 

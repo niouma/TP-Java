@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class JavaBase {
 	
@@ -39,9 +41,10 @@ public class JavaBase {
 		Connection dbConnection = null;
 		Statement statement = null;
 		String createtableSQL = "create table film (" +
+								"Cle varchar(200) not null," +
 								"Nom varchar(200) not null," +
 								"Annee int not null," +
-								"primary key(Nom)" + ")";
+								"primary key(Cle)" + ")";
 		try {
 			dbConnection = getDBConnection();
 			statement = dbConnection.createStatement();
@@ -65,10 +68,10 @@ public class JavaBase {
 		Connection dbConnection = null;
 		Statement statement = null;
 		String createtableSQL = "create table acteurs (" +
-								"NomFilm varchar(200) not null," +
-								"NomActeur int not null," +
-								"Prenom varchar(100) null," + 
-								"foreign key(NomFilm) references film(Nom)" + ")";
+								"Cle int not null," +
+								"NomActeur varchar(200) not null," +
+								"Prenom varchar(200) null," + 
+								"primary key(Cle)" + ")";
 		try {
 			dbConnection = getDBConnection();
 			statement = dbConnection.createStatement();
@@ -91,8 +94,8 @@ public class JavaBase {
 	private static void insertRecordintofilmTable() throws SQLException {
 		Connection dbConnection = null;
 		PreparedStatement ps = null;
-		String inserttableSQL = " insert into film " + "(Nom,Annee) " + "VALUES"
-								+ " (?,?)";
+		String inserttableSQL = " insert into film " + "(Cle,Nom,Annee) " + "VALUES"
+								+ " (?,?,?)";
 		try {
 			dbConnection = getDBConnection();
 			ps = dbConnection.prepareStatement(inserttableSQL);
@@ -101,10 +104,15 @@ public class JavaBase {
 			
 			//System.out.println("toto" + "\n");
 			Film.getTableFromFile();
-			for(Film film : Film.table.values()){
+			Set<String> keys = new TreeSet<String>();
+			keys = Film.table.keySet();
+			Iterator<String> it = keys.iterator();
+			while (it.hasNext()){
 				//System.out.println("toto2" + "\n");
-				ps.setString(1, film.getNomFilm());
-				ps.setInt(2, film.getAnnee());
+				String key = it.next();
+				ps.setString(1, key);
+				ps.setString(2, Film.table.get(key).getNomFilm());
+				ps.setInt(3, Film.table.get(key).getAnnee());
 				ps.executeUpdate();
 				ps.clearParameters();
 			}
@@ -122,11 +130,48 @@ public class JavaBase {
 		
 	}
 	
+	private static void insertRecordintoacteursTable() throws SQLException {
+		Connection dbConnection = null;
+		PreparedStatement ps = null;
+		String inserttableSQL = " insert into acteurs " + "(Cle,NomActeur,Prenom) " + "VALUES"
+								+ " (?,?,?)";
+		try {
+			dbConnection = getDBConnection();
+			ps = dbConnection.prepareStatement(inserttableSQL);
+			//System.out.println(createtableSQL);
+			
+			
+			//System.out.println("toto" + "\n");
+			Film.getTableFromFile();
+			Set<Integer> keys = new TreeSet<Integer>();
+			keys = Acteur.table.keySet();
+			Iterator<Integer> it = keys.iterator();
+			while (it.hasNext()){
+				//System.out.println("toto2" + "\n");
+				Integer key = it.next();
+				ps.setInt(1, key);
+				ps.setString(2, Acteur.table.get(key).getNom());
+				ps.setString(3, Acteur.table.get(key).getPrenom());
+				ps.executeUpdate();
+				ps.clearParameters();
+			}
+			System.out.println("Table \"acteurs\" is filled");
+		} catch (SQLException e){
+			System.out.println("Erreur " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if (ps != null)
+				ps.close();
+			if (dbConnection != null)
+				dbConnection.close();
+		}
+	}
+	
 	public static void main(String [] argv){
 		try {
-			//createfilmTable();
+		//	createfilmTable();
 			//createacteursTable();
-			insertRecordintofilmTable();
+			insertRecordintoacteursTable();
 		}catch (SQLException e){
 			System.out.println("Erreur " + e.getMessage());
 			e.printStackTrace();

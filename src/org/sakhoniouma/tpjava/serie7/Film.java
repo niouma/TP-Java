@@ -17,14 +17,14 @@ import java.util.TreeSet;
 public class Film {
 	private String nomFilm;
 	private int annee;
-	ArrayList<Acteur> acteurs = new ArrayList<Acteur>();
+	ArrayList<Integer> acteurs = new ArrayList<Integer>();
 	public static HashMap<String,Film> table = new HashMap<String,Film>();
 	
 	public Film (){
 		
 	}
 	
-	public Film(String film, int annee, ArrayList<Acteur> liste){
+	public Film(String film, int annee, ArrayList<Integer> liste){
 		nomFilm = film;
 		this.annee = annee;
 		this.acteurs = liste;
@@ -46,23 +46,23 @@ public class Film {
 		this.annee = annee;
 	}
 
-	public ArrayList<Acteur> getActeurs() {
+	public ArrayList<Integer> getActeurs() {
 		return acteurs;
 	}
 
-	public void setActeurs(ArrayList<Acteur> acteurs) {
+	public void setActeurs(ArrayList<Integer> acteurs) {
 		this.acteurs = acteurs;
 	}
 	
 	public String toString(){
 		String resultat;
-		Iterator<Acteur> it = acteurs.iterator();
+		Iterator<Integer> it = acteurs.iterator();
 		resultat = "Film : " + nomFilm + '\n';
 		resultat += "Année : " + annee + '\n';
 		resultat += "Liste des acteurs :" + '\n';
 		while (it.hasNext()){
-			Acteur element = it.next();
-			resultat += element.toString();	
+			Integer element = it.next();
+			resultat += Acteur.table.get(element).toString();	
 		}
 		return resultat;
 	}
@@ -92,7 +92,7 @@ public class Film {
 			ligne = br.readLine();
 			while(ligne != null){
 			//for(j=0;j<5;j++){
-				ArrayList<Acteur> act = new ArrayList<Acteur>();
+				ArrayList<Integer> act = new ArrayList<Integer>();
 				Film f = new Film();
 				StringTokenizer st = new StringTokenizer(ligne);
 				f.setNomFilm(st.nextToken("("));
@@ -109,7 +109,8 @@ public class Film {
 						a.setPrenom(" ");
 					else
 						a.setPrenom(tab2[1].trim());
-					act.add(a);
+					Acteur.table.put(a.hashCode(), a);
+					act.add(a.hashCode());
 				}
 				f.setActeurs(act);
 				
@@ -216,9 +217,9 @@ public class Film {
 		Iterator<Film> it = values.iterator();
 		while(it.hasNext()){
 			Film f = it.next();
-			Iterator<Acteur> it2 = f.getActeurs().iterator();
+			Iterator<Integer> it2 = f.getActeurs().iterator();
 			while(it2.hasNext()){
-				Acteur acteur = it2.next();
+				Acteur acteur = Acteur.table.get(it2.next());
 				if (acteur.equals(a))
 					resultat.add(f);
 			}
@@ -226,11 +227,11 @@ public class Film {
 		return resultat;
 	}
 	
-	public static ArrayList<Film> getFilmsByActeurs(ArrayList<Acteur> liste){
+	public static ArrayList<Film> getFilmsByActeurs(ArrayList<Integer> liste){
 		ArrayList<Film> resultat = new ArrayList<Film>();
-		Iterator<Acteur> it = liste.iterator();
+		Iterator<Integer> it = liste.iterator();
 		while(it.hasNext()){
-			Acteur a = it.next();
+			Acteur a = Acteur.table.get(it.next());
 			resultat.addAll(Film.getFilmsByActeur(a));
 		}
 		return resultat;

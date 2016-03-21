@@ -25,15 +25,15 @@ public class Main {
 		System.out.println(a2.hashCode());
 		System.out.println(a3.hashCode());
 		
-		ArrayList<Acteur> list1 = new ArrayList<Acteur>();
-		ArrayList<Acteur> list2 = new ArrayList<Acteur>();
-		list1.add(a1);
-		list2.add(a1);
-		list2.add(a3);
+		ArrayList<Integer> list1 = new ArrayList<Integer>();
+		ArrayList<Integer> list2 = new ArrayList<Integer>();
+		list1.add(a1.hashCode());
+		list2.add(a1.hashCode());
+		list2.add(a3.hashCode());
 		Film f1 = new Film("Troie",2005,list1);
 		Film f2 = new Film("Troie",2005,list1);
 		Film f3 = new Film("Invictus",2010,list2);
-		System.out.println(f1);
+		//System.out.println(f1);
 		System.out.println(f1.equals(f2));
 		System.out.println(f1.equals(f3));
 		System.out.println(f1.hashCode());
@@ -45,14 +45,15 @@ public class Main {
 		HashMap<String,Film> films = new HashMap<String,Film>();
 		films = Film.getTableFromFile();
 		//System.out.println(films.values());
-		System.out.println(Film.getFilmByNom("10"));
-		System.out.println(Film.getFilmsByAnnee(2003));
+		//System.out.println(Acteur.table.values());
+		//System.out.println(Film.getFilmByNom("10"));
+		//System.out.println(Film.getFilmsByAnnee(2003));
 		//System.out.println(Film.getFilmsBetweenAnnees(2000,2003));
-		System.out.println(Film.getFilmsByActeur(a1));
+		//System.out.println(Film.getFilmsByActeur(a1));
 		//System.out.println(Film.getFilmsByActeurs(list2));
 		//System.out.println(Film.getFilmsApartirde(2002));
-		System.out.println(Film.getFilmsAvantAnnee(1930));
-		
+		//System.out.println(Film.getFilmsAvantAnnee(1930));
+		System.out.println(Acteur.table.size());
 
 	}
 
