@@ -240,20 +240,20 @@ public class JavaBase {
 	private static void selectRecordsfromfilmacteursTable() throws SQLException {
 		Connection dbConnection = null;
 		Statement statement = null;
-		String createtableSQL = "select film.Nom from filmacteurs inner join "
+		String createtableSQL = "select acteurs.NomActeur,acteurs.Prenom from filmacteurs inner join "
 				+ "film on film.Cle = filmacteurs.CleFilm inner join acteurs on acteurs.Cle = "
-				+ "filmacteurs.CleNom where acteurs.NomActeur = \"Fitzgerald\"" ;
+				+ "filmacteurs.CleNom where film.Nom = \"King Frat\"" ;
 		try {
 			dbConnection = getDBConnection();
 			statement = dbConnection.createStatement();
 			System.out.println(createtableSQL);
 			ResultSet rs = statement.executeQuery(createtableSQL);
 			while (rs.next()){
-			/*	Acteur a = new Acteur();
-				a.setNom(rs.getString("no"));
+				Acteur a = new Acteur();
+				a.setNom(rs.getString("nomActeur"));
 				a.setPrenom(rs.getString("Prenom"));
-				System.out.println(a);*/
-				System.out.println(rs.getString("Nom"));
+				System.out.println(a);
+				//System.out.println(rs.getString("Nom"));
 			}
 			
 		} catch (SQLException e){
