@@ -91,6 +91,33 @@ public class JavaBase {
 		
 	}
 	
+	private static void createfilmacteursTable() throws SQLException {
+		Connection dbConnection = null;
+		Statement statement = null;
+		String createtableSQL = "create table filmacteurs (" +
+								"CleNom int not null," +
+								"CleFilm varchar(200) not null," +
+								"foreign key (CleNom) references acteurs(Cle)," +
+								"foreign key (CleFilm) references film(Cle)" + ")";
+		try {
+			dbConnection = getDBConnection();
+			statement = dbConnection.createStatement();
+			System.out.println(createtableSQL);
+			statement.execute(createtableSQL);
+			System.out.println("Table \"filmacteurs\" is created");
+		} catch (SQLException e){
+			System.out.println("Erreur " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if (statement != null)
+				statement.close();
+			if (dbConnection != null)
+				dbConnection.close();
+		}
+		
+		
+	}
+	
 	private static void insertRecordintofilmTable() throws SQLException {
 		Connection dbConnection = null;
 		PreparedStatement ps = null;
@@ -167,11 +194,87 @@ public class JavaBase {
 		}
 	}
 	
+	private static void insertRecordintofilmacteursTable() throws SQLException {
+		int i;
+		Connection dbConnection = null;
+		PreparedStatement ps = null;
+		String inserttableSQL = " insert into filmacteurs " + "(CleNom,CleFilm) " + "VALUES"
+								+ " (?,?)";
+		try {
+			dbConnection = getDBConnection();
+			ps = dbConnection.prepareStatement(inserttableSQL);
+			//System.out.println(createtableSQL);
+			
+			
+			//System.out.println("toto" + "\n");
+			Film.getTableFromFile();
+			Set<String> keys = new TreeSet<String>();
+			keys = Film.table.keySet();
+			Iterator<String> it = keys.iterator();
+			for(i=0;i<15;i++){
+				//System.out.println("toto2" + "\n");
+				String key = it.next();
+				Iterator<Integer> it2 = Film.table.get(key).getActeurs().iterator();
+				while(it2.hasNext()){
+					int acteur = it2.next();
+					ps.setInt(1, acteur);
+					ps.setString(2, key);
+					ps.executeUpdate();
+					ps.clearParameters();
+				}
+			}
+			System.out.println("Table \"filmacteurs\" is filled");
+		} catch (SQLException e){
+			System.out.println("Erreur " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if (ps != null)
+				ps.close();
+			if (dbConnection != null)
+				dbConnection.close();
+		}
+		
+		
+	}
+	
+	private static void selectRecordsfromfilmacteursTable() throws SQLException {
+		Connection dbConnection = null;
+		Statement statement = null;
+		String createtableSQL = "select film.Nom from filmacteurs inner join "
+				+ "film on film.Cle = filmacteurs.CleFilm inner join acteurs on acteurs.Cle = "
+				+ "filmacteurs.CleNom where acteurs.NomActeur = \"Fitzgerald\"" ;
+		try {
+			dbConnection = getDBConnection();
+			statement = dbConnection.createStatement();
+			System.out.println(createtableSQL);
+			ResultSet rs = statement.executeQuery(createtableSQL);
+			while (rs.next()){
+			/*	Acteur a = new Acteur();
+				a.setNom(rs.getString("no"));
+				a.setPrenom(rs.getString("Prenom"));
+				System.out.println(a);*/
+				System.out.println(rs.getString("Nom"));
+			}
+			
+		} catch (SQLException e){
+			System.out.println("Erreur " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if (statement != null)
+				statement.close();
+			if (dbConnection != null)
+				dbConnection.close();
+		}
+		
+		
+	}
+	
 	public static void main(String [] argv){
 		try {
 		//	createfilmTable();
-			//createacteursTable();
-			insertRecordintoacteursTable();
+			//createfilmacteursTable();
+			//insertRecordintofilmacteursTable();
+			selectRecordsfromfilmacteursTable();
 		}catch (SQLException e){
 			System.out.println("Erreur " + e.getMessage());
 			e.printStackTrace();
